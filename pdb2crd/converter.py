@@ -11,8 +11,17 @@ def convert_pdb_to_crd(pdb_path, seg_id="HETA"):
     Returns:
         str: CRD formatted content
     """
-    with open(pdb_path, 'r') as f:
-        pdb_lines = f.readlines()
+    try:
+        with open(pdb_path, 'r') as f:
+            pdb_lines = f.readlines()
+
+    except IOError as e:
+        raise ValueError(f"Could not read PDB file: {str(e)}")
+
+    atoms = [line for line in pdb_lines if line.startswith(("ATOM", "HETATM"))]
+    
+    if not atoms:
+        raise ValueError("No ATOM/HETATM records found in PDB file")
 
     crd_lines = []
     atoms = [line for line in pdb_lines if line.startswith(("ATOM", "HETATM"))]
