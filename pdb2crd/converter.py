@@ -40,7 +40,7 @@ def convert_pdb_to_crd(pdb_path, seg_id="HETA"):
             crd_line = (
                 f"{i:10d}{i:10d}  {res_name:4s}      {atom_name:4s}  "
                 f"{x:12.6f}      {y:12.6f}      {z:12.6f}  {seg_id}      {res_num:6d}"
-            )
+                )
             crd_lines.append(crd_line)
         except (ValueError, IndexError) as e:
             raise ValueError(f"Error parsing line {i}: {line.strip()}") from e

@@ -12,11 +12,26 @@ class TestPDBToCRD(unittest.TestCase):
 
     def test_convert_pdb_to_crd(self):
         """Test conversion from PDB to CRD string"""
-        with open(self.expected_crd, 'r') as f:
-            expected = f.read().strip()
-        
-        result = convert_pdb_to_crd(self.sample_pdb).strip()
-        self.assertEqual(result, expected)
+        def test_convert_pdb_to_crd(self):
+            with open(self.expected_crd, 'r') as f:
+                expected = f.read()
+            result = convert_pdb_to_crd(self.sample_pdb)
+            
+            # Debug output
+            print("\n=== EXPECTED ===")
+            print(expected)
+            print("\n=== ACTUAL ===")
+            print(result)
+            print("\n=== DIFF ===")
+            
+            # Compare line by line
+            for i, (exp_line, act_line) in enumerate(zip(expected.splitlines(), result.splitlines())):
+                if exp_line != act_line:
+                    print(f"Line {i+1} mismatch:")
+                    print(f"Expected: {exp_line}")
+                    print(f"Actual:   {act_line}")
+            
+            self.assertEqual(result, expected)
 
     def test_save_crd(self):
         """Test saving CRD to file"""
