@@ -3,9 +3,7 @@
 
 A Python package for converting PDB coordinate files to CHARMM/NAMD CRD format.
 
-**Note 1**: First commit will be soon
-
-**Note 2**: This tool only converts coordinate information, not trajectories.
+**Note**: This tool only converts coordinate information, not trajectories.
 
 ## Installation
 
