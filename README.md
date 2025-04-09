@@ -1,62 +1,78 @@
-# pdb2crd
-## PDB to CRD Converter
+# PDB to CRD Converter
 
-A Python package for converting PDB coordinate files to CHARMM/NAMD CRD format.
+Convert PDB coordinate files to CHARMM/NAMD CRD format directly from GitHub.
 
-**Note**: This tool only converts coordinate information, not trajectories.
+![PDB to CRD Conversion](https://img.shields.io/badge/format-PDB→CRD-blue) 
+![Python 3.6+](https://img.shields.io/badge/python-3.6+-green)
+
+## Features
+- Convert PDB/HETATM records to CRD format
+- Preserve atom/residue naming conventions
+- Cross-platform (Windows/Linux/macOS)
+- CLI and Python API support
 
 ## Installation
 
+### From GitHub (Recommended)
 ```bash
-pip install pdb2crd
+pip install git+https://github.com/hillel-lerner/pdb2crd.git
 ```
+
+### Manual Installation
+1. Download the repository:
+   ```bash
+   git clone https://github.com/hillel-lerner/pdb2crd.git
+   cd pdb2crd
+   ```
+2. Install:
+   ```bash
+   pip install .
+   ```
 
 ## Usage
 
-### Command Line Interface
-
+### Command Line
 ```bash
 pdb2crd input.pdb [-o output.crd] [-s SEGID]
 ```
-
-- `input.pdb`: Input PDB file
-- `-o output.crd`: Optional output file (default: same name as input with .crd extension)
-- `-s SEGID`: Segment ID to use in CRD file (default: "HETA")
+Example:
+```bash
+pdb2crd molecule.pdb -o molecule.crd -s PFP
+```
 
 ### Python API
-
 ```python
 from pdb2crd import convert_pdb_to_crd, save_crd
 
-# Convert and get CRD content as string
+# Convert to CRD string
 crd_content = convert_pdb_to_crd("input.pdb")
 
-# Convert and save to file
-output_path = save_crd("input.pdb", output_path="output.crd", seg_id="MYSEGID")
+# Save to file
+save_crd("input.pdb", "output.crd", seg_id="MYID")
 ```
 
 ## Limitations
-
-1. **Coordinate Data Only**: This converter only processes coordinate information from PDB files. It does not handle:
-   - Trajectory data
-   - Velocity information
-   - Force field parameters
-
-2. **Heteroatom Focus**: Designed primarily for small molecules/heteroatoms. For proteins, you may need to adjust the segment ID.
-
-3. **Fixed Format**: Input PDB must follow standard column formatting.
+- Only converts coordinate data (no trajectories)
+- Requires standard PDB formatting
+- Designed for small molecules
 
 ## Development
-
-To install for development:
-
 ```bash
 git clone https://github.com/yourusername/pdb2crd.git
 cd pdb2crd
-pip install -e .
+pip install -e .[dev]  # Install with development dependencies
+pytest -v  # Run tests
 ```
 
-Run tests:
-```bash
-python -m pytest
-```
+## License
+MIT License - See [LICENSE](LICENSE) file
+
+
+**For Windows Users**: Add this troubleshooting section if needed:
+   ```markdown
+   ## Windows Troubleshooting
+   If encountering SSL errors:
+   ```cmd
+   git config --global http.sslBackend schannel
+   ```
+   ```

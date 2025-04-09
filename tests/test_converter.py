@@ -26,8 +26,9 @@ class TestPDBToCRD(unittest.TestCase):
             self.assertTrue(os.path.exists(output_path))
             
             # Verify content matches
-            with open(output_path, 'r') as f:
+            with open(output_path, 'r', newline='') as f:  # Force consistent newlines
                 saved_content = f.read().strip()
+            
             with open(self.expected_crd, 'r') as f:
                 expected = f.read().strip()
             

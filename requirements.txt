@@ -1,0 +1,10 @@
+```text
+# Core requirements
+numpy>=1.21.0
+
+# Development extras
+pytest>=6.0.0
+black>=22.3.0
+flake8>=4.0.0
+
+```
