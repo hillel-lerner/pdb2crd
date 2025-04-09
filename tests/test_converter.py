@@ -5,7 +5,7 @@ from pdb2crd.converter import convert_pdb_to_crd, save_crd
 class TestPDBToCRD(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.test_data_dir = os.path.join(os.path.dirname(__file__), "test_data")
+        cls.test_data_dir = os.path.join(os.path.dirname(__file__), "sample_data")
         cls.sample_pdb = os.path.join(cls.test_data_dir, "sample.pdb")
         cls.expected_crd = os.path.join(cls.test_data_dir, "expected_output.crd")
         cls.output_crd = os.path.join(cls.test_data_dir, "temp_output.crd")
