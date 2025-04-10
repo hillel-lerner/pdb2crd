@@ -2,7 +2,7 @@ import os
 
 def convert_pdb_to_crd(pdb_path, seg_id="HETA"):
     """
-    Convert PDB file to CRD format for heteroatoms with strict formatting.
+    Convert PDB file to CRD format with strict formatting.
     
     Args:
         pdb_path: Path to PDB file (string)
@@ -23,23 +23,25 @@ def convert_pdb_to_crd(pdb_path, seg_id="HETA"):
     if not atoms:
         raise ValueError("No ATOM/HETATM records found in PDB data")
     
-    # Prepare CRD lines with strict formatting
-    crd_lines = [f"{len(atoms):5d}  EXT"]  # Header with 2 spaces before EXT
+    # CRD header (note: some CHARMM versions expect 2 spaces before EXT)
+    crd_lines = ["* Generated from PDB file: " + os.path.basename(pdb_path)]
+    crd_lines.append(f"{len(atoms):5d}")
     
     for i, line in enumerate(atoms, 1):
         try:
-            # Parse PDB columns
-            atom_name = line[12:16].strip().ljust(4)
-            res_name = line[17:20].strip().ljust(4)
+            # Parse PDB columns (using fixed-width slicing for reliability)
+            atom_name = line[12:16].strip()
+            res_name = line[17:20].strip()
             res_num = int(line[22:26].strip())
             x = float(line[30:38].strip())
             y = float(line[38:46].strip())
             z = float(line[46:54].strip())
+            element = line[76:78].strip()
             
-            # Format CRD line with exact spacing
+            # Format CRD line with exact spacing (CHARMM standard)
             crd_line = (
-                f"{i:10d}{res_num:10d}  {res_name:4s}      {atom_name:4s}  "
-                f"{x:12.6f}      {y:12.6f}      {z:12.6f}  {seg_id}      {res_num:6d}"
+                f"{i:5d} {res_num:5d} {res_name:4s} {atom_name:4s} "
+                f"{x:12.6f} {y:12.6f} {z:12.6f} {seg_id:4s} {res_num:4d}"
             )
             crd_lines.append(crd_line)
         except (ValueError, IndexError) as e:
